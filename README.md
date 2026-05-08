@@ -1,6 +1,6 @@
 # 🎓 DSU CGPA Predictor
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/dsu-cgpa-predictor/deploy-status)](https://dsu-calculator.netlify.app/)
+
 [![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-8-purple?logo=vite)](https://vitejs.dev/)
 [![TailwindCSS](https://img.shields.io/badge/Tailwind%20CSS-v4-38bdf8?logo=tailwindcss)](https://tailwindcss.com/)
