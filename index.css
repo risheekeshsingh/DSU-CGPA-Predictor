@@ -13,11 +13,4 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Hide floating development icons and overlays */
-#vite-error-overlay, 
-.vite-error-overlay, 
-[id^="vite-"], 
-[class^="vite-"], 
-.vite-indicator {
-  display: none !important;
-}
+

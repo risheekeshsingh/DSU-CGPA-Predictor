@@ -7,10 +7,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+
+# Build output
 dist
 dist-ssr
+
+# Local env files
 *.local
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Editor directories and files
 .vscode/*
@@ -23,10 +33,9 @@ dist-ssr
 *.sln
 *.sw?
 
-# Project files
-.env
-.env.test
-.env.production
-
-# Netlify
-.netlify
+# Raw image files (already embedded as base64 in component)
+*.jpeg
+*.jpg
+*.png
+!public/**
+!assets/**
