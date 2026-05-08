@@ -1,0 +1,271 @@
+  const CreatorCard = ({ name, role, imgData, linkedinUrl }) => {
+    const cardRef = useRef(null);
+    const [transform, setTransform] = useState(
+      "perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)"
+    );
+    const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 });
+
+    const handleMouseMove = (e) => {
+      if (!cardRef.current) return;
+      const rect = cardRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const rotateX = ((y - centerY) / centerY) * -10;
+      const rotateY = ((x - centerX) / centerX) * 10;
+
+      setTransform(
+        `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02,1.02,1.02)`
+      );
+      setGlare({ x: (x / rect.width) * 100, y: (y / rect.height) * 100, opacity: 0.1 });
+    };
+
+    const handleMouseLeave = () => {
+      setTransform("perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)");
+      setGlare({ x: 50, y: 50, opacity: 0 });
+    };
+
+    return (
+      <div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          transform,
+          transition: "transform 0.15s ease-out",
+          transformStyle: "preserve-3d",
+          willChange: "transform",
+        }}
+        className="relative bg-white rounded-[32px] border border-slate-200 p-8 flex flex-col items-center gap-4 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group"
+      >
+        <div style={{ position:"absolute", inset:0, borderRadius:"24px", pointerEvents:"none",
+          background:`radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(255,255,255,${glare.opacity}) 0%, transparent 60%)`,
+          transition:"opacity 0.15s" }} />
+        
+        <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-slate-50 shadow-md flex-shrink-0 relative z-10 group-hover:scale-105 transition-transform duration-300">
+          <img src={imgData} alt={name} className="w-full h-full object-cover object-top" />
+        </div>
+        
+        <div className="text-center relative z-10">
+          <h3 className="text-xl font-extrabold text-slate-900 m-0 tracking-tight">{name}</h3>
+          <p className="text-sm text-slate-500 mt-1 font-medium">{role}</p>
+        </div>
+        
+        <a href={linkedinUrl} target="_blank" rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="mt-2 inline-flex items-center gap-2 bg-slate-50 hover:bg-blue-50 text-blue-700 px-6 py-2.5 rounded-full text-sm font-bold no-underline border border-slate-200 hover:border-blue-200 transition-colors z-10 shadow-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+          LinkedIn
+        </a>
+      </div>
+    );
+  };
+
+  const creators = [
+    { name:"Monjit Borah", role:"Full-stack & AI Engineer", imgData:`data:image/png;base64,${IMG1}`, linkedinUrl:"https://www.linkedin.com/in/monjit-borah/" },
+    { name:"Risheekesh Singh", role:"Creator", imgData:`data:image/png;base64,${IMG2}`, linkedinUrl:"https://l1nk.dev/y684myw" },
+    { name:"Aayush Bajaj", role:"Creator", imgData:`data:image/png;base64,${IMG3}`, linkedinUrl:"https://www.linkedin.com/in/aayush-bajaj-b3b97a344?utm_source=share_via&utm_content=profile&utm_medium=member_android" },
+  ];
+
+  return (
+    <div className="min-h-screen bg-slate-50 p-6 text-slate-900 font-inter">
+      <div className="max-w-7xl mx-auto">
+        <div className="bg-white rounded-3xl p-8 shadow-xl ring-1 ring-slate-900/5">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-6">
+            <div>
+              <h1 className="text-5xl font-extrabold tracking-tight text-blue-950 flex items-center gap-3">DSU CGPA Predictor</h1>
+              <p className="text-slate-500 mt-3 text-lg font-medium">Production Grade SGPA / CGPA Calculator</p>
+            </div>
+            <div className="flex bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/60 shadow-inner">
+              <button onClick={() => setActiveTab("sgpa")} className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${activeTab === "sgpa" ? "bg-white text-blue-900 shadow-sm ring-1 ring-slate-900/5" : "text-slate-500 hover:text-slate-700 hover:bg-slate-50/50"}`}>SGPA Calculator</button>
+              <button onClick={() => setActiveTab("cgpa")} className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${activeTab === "cgpa" ? "bg-white text-blue-900 shadow-sm ring-1 ring-slate-900/5" : "text-slate-500 hover:text-slate-700 hover:bg-slate-50/50"}`}>CGPA Calculator</button>
+            </div>
+          </div>
+
+          {activeTab === "sgpa" ? (
+            <>
+              <div className="flex justify-end mb-6">
+                <button onClick={addCourse}
+                  className="bg-blue-900 text-white px-6 py-3 rounded-2xl flex items-center gap-2 font-semibold hover:bg-blue-800 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 active:scale-95">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Add Course
+                </button>
+              </div>
+
+              <div className="space-y-6">
+                {courses.map((course) => (
+                  <div key={course.id} className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300 group">
+                    <div className="grid lg:grid-cols-8 md:grid-cols-4 gap-4 items-end">
+                      <div>
+                        <label className="block mb-2 text-sm font-medium text-slate-600">Course Name</label>
+                        <input type="text" value={course.name}
+                          onChange={(e) => updateCourse(course.id, "name", e.target.value)}
+                          className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-slate-900 outline-none" />
+                      </div>
+                      <div>
+                        <label className="block mb-2 text-sm font-medium text-slate-600">Credits</label>
+                        <input type="number" min="1" value={course.credits}
+                          onChange={(e) => updateCourse(course.id, "credits", e.target.value)}
+                          className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-slate-900 outline-none" />
+                      </div>
+                      <div>
+                        <label className="block mb-2 text-sm font-medium text-slate-600">Input Mode</label>
+                        <select value={course.mode}
+                          onChange={(e) => updateCourse(course.id, "mode", e.target.value)}
+                          className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-slate-900 outline-none font-medium">
+                          <option value="marks">Marks Based</option>
+                          <option value="grade">Direct Grade</option>
+                        </select>
+                      </div>
+                      {course.mode === "marks" ? (
+                        Number(course.credits) === 2 ? (
+                          <div>
+                            <label className="block mb-2 text-sm font-medium text-slate-600">Obtained Marks (100)</label>
+                            <input type="number" min="0" max="100" value={course.cia}
+                              onChange={(e) => updateCourse(course.id, "cia", e.target.value)}
+                              className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-slate-900 outline-none" />
+                          </div>
+                        ) : (
+                          <>
+                            <div>
+                              <label className="block mb-2 text-sm font-medium text-slate-600">CIA (60)</label>
+                              <input type="number" min="0" max="60" value={course.cia}
+                                onChange={(e) => updateCourse(course.id, "cia", e.target.value)}
+                                className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-slate-900 outline-none" />
+                            </div>
+                            <div>
+                              <label className="block mb-2 text-sm font-medium text-slate-600">Final Exam (80)</label>
+                              <input type="number" min="0" max="80" value={course.see}
+                                onChange={(e) => updateCourse(course.id, "see", e.target.value)}
+                                className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-slate-900 outline-none" />
+                            </div>
+                          </>
+                        )
+                      ) : (
+                        <div>
+                          <label className="block mb-2 text-sm font-medium text-slate-600">Expected Grade</label>
+                          <select value={course.grade}
+                            onChange={(e) => updateCourse(course.id, "grade", e.target.value)}
+                            className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-slate-900 outline-none font-bold">
+                            {Object.keys(gradeMap).map((grade) => (
+                              <option key={grade} value={grade}>{grade}</option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+                      <div>
+                        <label className="block mb-2 text-sm font-medium text-slate-600">Grade</label>
+                        <div className="p-3 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-100 text-center font-bold text-xl">{course.grade}</div>
+                      </div>
+                      <div>
+                        <label className="block mb-2 text-sm font-medium text-slate-600">Total</label>
+                        <div className="p-3 rounded-xl bg-blue-50 text-blue-700 border border-blue-100 text-center font-bold text-xl">{course.total.toFixed(2)}</div>
+                      </div>
+                      <button onClick={() => removeCourse(course.id)}
+                        className="bg-red-50 text-red-600 hover:bg-red-600 hover:text-white border border-red-100 hover:border-red-600 p-3 rounded-2xl flex items-center justify-center font-bold transition-colors duration-300">Delete</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid md:grid-cols-4 gap-6 mt-10">
+                <div className="bg-slate-50 border border-slate-200 p-6 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                  <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">Total Credits</h2>
+                  <p className="text-4xl font-extrabold text-slate-800">{totalCredits}</p>
+                </div>
+                <div className="bg-gradient-to-br from-blue-900 to-indigo-900 p-6 rounded-3xl shadow-lg transform hover:-translate-y-1 transition-transform duration-300">
+                  <h2 className="text-sm font-semibold text-blue-200 uppercase tracking-wider mb-2">SGPA / CGPA</h2>
+                  <p className="text-4xl font-extrabold text-white">{sgpa}</p>
+                </div>
+                <div className="bg-slate-50 border border-slate-200 p-6 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                  <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">Percentage</h2>
+                  <p className="text-4xl font-extrabold text-slate-800">{percentage}%</p>
+                </div>
+                <div className="bg-slate-50 border border-slate-200 p-6 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                  <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">Division</h2>
+                  <p className="text-xl font-extrabold text-slate-800 mt-2">{getDivision(Number(sgpa))}</p>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex justify-end mb-6">
+                <button onClick={addSemester}
+                  className="bg-blue-900 text-white px-6 py-3 rounded-2xl flex items-center gap-2 font-semibold hover:bg-blue-800 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 active:scale-95">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Add Semester
+                </button>
+              </div>
+              <div className="space-y-6">
+                {semesters.map((sem, index) => (
+                  <div key={sem.id} className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <div className="grid md:grid-cols-3 gap-4 items-end">
+                      <div>
+                        <label className="block mb-2 text-sm font-medium text-slate-600">Semester {index + 1} SGPA</label>
+                        <input type="number" min="0" max="10" step="0.01" value={sem.sgpa}
+                          onChange={(e) => updateSemester(sem.id, "sgpa", e.target.value)}
+                          className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-slate-900 outline-none" placeholder="e.g. 8.5" />
+                      </div>
+                      <div>
+                        <label className="block mb-2 text-sm font-medium text-slate-600">Total Credits</label>
+                        <input type="number" min="1" value={sem.credits}
+                          onChange={(e) => updateSemester(sem.id, "credits", e.target.value)}
+                          className="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-slate-900 outline-none" placeholder="e.g. 20" />
+                      </div>
+                      <div className="flex justify-end">
+                        <button onClick={() => removeSemester(sem.id)}
+                          className="bg-red-50 text-red-600 hover:bg-red-600 hover:text-white border border-red-100 hover:border-red-600 p-3 rounded-2xl flex items-center justify-center font-bold h-12 px-6 transition-colors duration-300">Delete</button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-10 bg-slate-50 p-8 rounded-3xl text-center border border-slate-200 shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
+                <h2 className="text-lg font-semibold text-slate-500 uppercase tracking-wider mb-3">Overall CGPA</h2>
+                <p className="text-7xl font-extrabold bg-gradient-to-br from-blue-950 to-indigo-800 text-transparent bg-clip-text">{calculateCGPA()}</p>
+              </div>
+            </>
+          )}
+
+          <div className="mt-10 bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
+            <h2 className="text-2xl font-extrabold text-slate-800 flex items-center gap-2 mb-6">DSU Grade System</h2>
+            <div className="grid md:grid-cols-4 gap-4">
+              <div className="bg-slate-50 border border-slate-100 text-slate-700 p-4 rounded-2xl font-medium text-center shadow-sm">90–100 → <span className="text-blue-700 font-bold">O</span> → 10 GP</div>
+              <div className="bg-slate-50 border border-slate-100 text-slate-700 p-4 rounded-2xl font-medium text-center shadow-sm">80–89 → <span className="text-blue-700 font-bold">A+</span> → 9 GP</div>
+              <div className="bg-slate-50 border border-slate-100 text-slate-700 p-4 rounded-2xl font-medium text-center shadow-sm">70–79 → <span className="text-blue-700 font-bold">A</span> → 8 GP</div>
+              <div className="bg-slate-50 border border-slate-100 text-slate-700 p-4 rounded-2xl font-medium text-center shadow-sm">60–69 → <span className="text-blue-700 font-bold">B+</span> → 7 GP</div>
+              <div className="bg-slate-50 border border-slate-100 text-slate-700 p-4 rounded-2xl font-medium text-center shadow-sm">55–59 → <span className="text-blue-700 font-bold">B</span> → 6 GP</div>
+              <div className="bg-slate-50 border border-slate-100 text-slate-700 p-4 rounded-2xl font-medium text-center shadow-sm">50–54 → <span className="text-blue-700 font-bold">C</span> → 5 GP</div>
+              <div className="bg-slate-50 border border-slate-100 text-slate-700 p-4 rounded-2xl font-medium text-center shadow-sm">40–49 → <span className="text-blue-700 font-bold">P</span> → 4 GP</div>
+              <div className="bg-slate-50 border border-slate-100 text-slate-700 p-4 rounded-2xl font-medium text-center shadow-sm">Below 40 → <span className="text-red-600 font-bold">F</span> → 0 GP</div>
+            </div>
+          </div>
+
+          {/* Creators Section */}
+          <div className="mt-16">
+            <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent mb-10" />
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 uppercase inline-block">
+                Creators
+              </h2>
+              <p className="text-slate-500 text-sm mt-2 font-medium tracking-wide">
+                The minds behind this tool
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
+              {creators.map((creator) => (
+                <CreatorCard key={creator.name} {...creator} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
