@@ -213,7 +213,7 @@ export default function DSUCalculator() {
 
   const creators = [
     { name:"Monjit Borah", role:"Full-stack & AI Engineer", imgData:`data:image/png;base64,${IMG1}`, linkedinUrl:"https://www.linkedin.com/in/monjit-borah/" },
-    { name:"Risheekesh Singh", role:"Creator", imgData:`data:image/png;base64,${IMG2}`, linkedinUrl:"https://l1nk.dev/y684myw" },
+    { name:"Risheekesh Singh", role:"Creator", imgData:`data:image/png;base64,${IMG2}`, linkedinUrl:"https://www.linkedin.com/in/risheekesh-singh-rajput-6b084a327/" },
     { name:"Aayush Bajaj", role:"Creator", imgData:`data:image/png;base64,${IMG3}`, linkedinUrl:"https://www.linkedin.com/in/aayush-bajaj-b3b97a344?utm_source=share_via&utm_content=profile&utm_medium=member_android" },
   ];
 

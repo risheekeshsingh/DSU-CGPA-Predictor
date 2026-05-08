@@ -88,7 +88,7 @@ This project is pre-configured for Netlify with a `netlify.toml` file.
 
 **Risheekesh Singh**
 - GitHub: [@risheekeshsingh](https://github.com/risheekeshsingh)
-- LinkedIn: [Risheekesh Singh](https://l1nk.dev/y684myw)
+- LinkedIn: [Risheekesh Singh](https://www.linkedin.com/in/risheekesh-singh-rajput-6b084a327/)
 
 ---
 
