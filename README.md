@@ -8,7 +8,7 @@
 
 A modern, premium, and professional educational web application designed for students of **Dayananda Sagar University (DSU)** to calculate and predict their SGPA and CGPA with ease.
 
-**🌐 Live Website:** [https://dsu-calculator.netlify.app/](https://dsu-calculator.netlify.app/)
+**🌐 Live Website:** https://dsu-calculator.netlify.app/
 
 ---
 
